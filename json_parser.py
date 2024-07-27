@@ -1,7 +1,8 @@
 import json
 
-# Reading JSON file
-with open('fire_table_b.json', mode='r') as file:
-    data = json.load(file)
+def read_json_table(filename):
+    data = None
+    with open(filename, mode='r') as file:
+        data = json.load(file)
+    return data
 
-print(data['TableB']['Unshaded']['W']['NoSlope']['1000']['A'])
