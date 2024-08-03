@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Ignition Probability</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .result { margin-top: 20px; padding: 10px; background-color: #f4f4f4; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<h1>Fire Ignition Probability Calculator</h1>
+
+<div class="form-group">
+    <label for="dryBulbTemperature">Dry Bulb Temperature (Integer):</label>
+    <input type="number" id="dryBulbTemperature">
+</div>
+
+<div class="form-group">
+    <label for="relativeHumidity">Relative Humidity Percentage (Integer):</label>
+    <input type="number" id="relativeHumidity">
+</div>
+
+<div class="form-group">
+    <label for="direction">Direction (N/E/S/W):</label>
+    <select id="direction">
+        <option value="N">North</option>
+        <option value="E">East</option>
+        <option value="S">South</option>
+        <option value="W">West</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="slope">Is the slope > 30% (y/n):</label>
+    <select id="slope">
+        <option value="y">Yes</option>
+        <option value="n">No</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="shading">Is the shade >50% (y/n):</label>
+    <select id="shading">
+        <option value="y">Yes</option>
+        <option value="n">No</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="altitudeDiff">Altitude difference from wx station (use negative for below):</label>
+    <input type="number" id="altitudeDiff">
+</div>
+
+<button onclick="calculateProbability()">Calculate</button>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
