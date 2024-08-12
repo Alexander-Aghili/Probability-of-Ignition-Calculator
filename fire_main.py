@@ -50,6 +50,14 @@ def is_shaded(val: bool) -> str:
 def is_sloped(val: bool) -> str:
     return "Slope" if val else "NoSlope"
 
+def get_time(time):
+    if time < 800:
+        return 800
+    elif time > 1800:
+        return 1800
+    else:
+        return time
+
 def get_conditions() -> Conditions:
     conditions = Conditions()
     conditions.dry_bulb_temperature = round_down_by_n(int(input("What is the dry bulb temperature (Integer): ")), 10)
@@ -61,7 +69,7 @@ def get_conditions() -> Conditions:
     # Automatically get current time and round it
     current_time = time.localtime()
     hour_min = current_time.tm_hour * 100 + current_time.tm_min
-    conditions.time_of_day = round_down_by_n(hour_min, 200)
+    conditions.time_of_day = get_time(round_down_by_n(hour_min, 200))
     
     conditions.altitude_diff = get_altitude_diff()
     return conditions
