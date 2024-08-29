@@ -101,4 +101,50 @@ async function calculateProbability() {
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
     resultDiv.textContent = `Probability of Ignition: ${probabilityOfIgnition}`;
+
+    // Display the save button after calculation
+    const saveButton = document.getElementById('saveButton');
+    saveButton.style.display = 'inline-block';
+
+    // Save configuration and result on button click
+    saveButton.onclick = function () {
+        saveConfiguration(conditions, probabilityOfIgnition);
+    };
 }
+
+function saveConfiguration(conditions, probabilityOfIgnition) {
+    const timestamp = new Date().toISOString();
+    const savedData = {
+        timestamp,
+        conditions,
+        probabilityOfIgnition
+    };
+
+    // Retrieve saved configurations
+    let savedConfigs = JSON.parse(localStorage.getItem('savedConfigs')) || [];
+
+    // Add new configuration
+    savedConfigs.push(savedData);
+
+    // Save back to localStorage
+    localStorage.setItem('savedConfigs', JSON.stringify(savedConfigs));
+
+    alert('Configuration saved!');
+    displaySavedConfigurations(); // Update the list of saved configurations
+}
+
+function displaySavedConfigurations() {
+    const savedConfigs = JSON.parse(localStorage.getItem('savedConfigs')) || [];
+    const savedListDiv = document.getElementById('savedConfigsList');
+
+    savedListDiv.innerHTML = ''; // Clear previous content
+
+    savedConfigs.forEach(config => {
+        const configElement = document.createElement('div');
+        configElement.textContent = `Saved on ${new Date(config.timestamp).toLocaleString()} - Probability of Ignition: ${config.probabilityOfIgnition}`;
+        savedListDiv.appendChild(configElement);
+    });
+}
+
+// Call this function on page load
+window.onload = displaySavedConfigurations;

@@ -30,7 +30,7 @@ def round_down_20(number: int) -> int:
     return math.floor((number - 10) / 20) * 20 + 10
 
 def get_direction() -> str:
-    return input("What is the direction (N/E/S/W): ").strip()
+    return input("What is the direction (N/E/S/W): ").upper().strip()
 
 def get_altitude_diff() -> str:
     alt = int(input("What is the altitude difference from wx station (use negative for below): ").strip())

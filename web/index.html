@@ -12,6 +12,9 @@
         button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #45a049; }
         .result { margin-top: 20px; padding: 10px; background-color: #f4f4f4; border: 1px solid #ddd; }
+        #saveButton { margin-top: 10px; background-color: #008CBA; }
+        #saveButton:hover { background-color: #007bb5; }
+        #savedConfigsList { margin-top: 20px; padding: 10px; background-color: #e7f3fe; border: 1px solid #b3d7ff; }
     </style>
 </head>
 <body>
@@ -60,8 +63,11 @@
 </div>
 
 <button onclick="calculateProbability()">Calculate</button>
+<button id="saveButton" style="display:none;">Save Configuration</button>
 
 <div id="result" class="result" style="display:none;"></div>
+
+<div id="savedConfigsList"></div>
 
 <script src="main.js"></script>
 
