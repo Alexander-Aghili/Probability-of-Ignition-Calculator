@@ -1,3 +1,7 @@
+function properString(string) {
+    return './fire_ignition_calculator/' + string
+}
+
 function roundDownByN(number, n) {
     return Math.floor(number / n) * n;
 }
@@ -72,19 +76,19 @@ async function fetchCsv(file) {
 async function getProperFireAdjustmentData() {
     const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-11
     if (5 <= currentMonth && currentMonth <= 7) {
-        return await fetchJson('fire_table_b.json');
+        return await fetchJson(properString('fire_table_b.json'));
     } else if (currentMonth >= 11 || currentMonth === 1) {
-        return await fetchJson('fire_table_d.json');
+        return await fetchJson(properString('fire_table_d.json'));
     } else {
-        return await fetchJson('fire_table_c.json');
+        return await fetchJson(properString('fire_table_c.json'));
     }
 }
 
 async function calculateProbability() {
     const conditions = getConditions();
-    const initialTable = await fetchCsv('./fire_table_a.csv');
+    const initialTable = await fetchCsv(properString('./fire_table_a.csv'));
     const adjustmentTable = await getProperFireAdjustmentData();
-    const finalTable = await fetchJson('fire_table_e.json');
+    const finalTable = await fetchJson(properString('fire_table_e.json'));
 
     const num = parseInt(initialTable[roundDown20(conditions.dryBulbTemperature).toString()][conditions.relativeHumidityPercentage.toString()]);
     let adjustmentNum;
