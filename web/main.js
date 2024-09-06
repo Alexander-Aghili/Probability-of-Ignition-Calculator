@@ -1,6 +1,4 @@
-function properString(string) {
-    return './fire_ignition_calculator/' + string
-}
+
 
 function roundDownByN(number, n) {
     return Math.floor(number / n) * n;
@@ -17,11 +15,11 @@ function getDirection() {
 function getAltitudeDiff() {
     const alt = parseInt(document.getElementById('altitudeDiff').value);
     if (alt < -1000) {
-        return 'B';
+        return "B";
     } else if (alt > 1000) {
-        return 'A';
+        return "A";
     } else {
-        return 'L';
+        return "L";
     }
 }
 
@@ -33,9 +31,21 @@ function isSloped(val) {
     return val === "y" ? "Slope" : "NoSlope";
 }
 
+    
+function roundToNearest(value, list) {
+    return list.reduce((prev, curr) => {
+        return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+    });
+}
+
 function getConditions() {
     const conditions = {};
     conditions.dryBulbTemperature = roundDownByN(parseInt(document.getElementById('dryBulbTemperature').value), 10);
+    if (conditions.dryBulbTemperature > 100) {
+        conditions.dryBulbTemperature = 100
+    } else if (conditions.dryBulbTemperature < 0) {
+        conditions.dryBulbTemperature = 10;
+    }
     conditions.relativeHumidityPercentage = roundDownByN(parseInt(document.getElementById('relativeHumidity').value), 5);
     conditions.direction = getDirection();
     conditions.slope = isSloped(document.getElementById('slope').value);
@@ -43,7 +53,9 @@ function getConditions() {
 
     const currentTime = new Date();
     const hourMin = currentTime.getHours() * 100 + currentTime.getMinutes();
-    conditions.timeOfDay = roundDownByN(hourMin, 200);
+    const timesOfDay = [800, 1000, 1200, 1400, 1600, 1800];
+    
+    conditions.timeOfDay = roundToNearest(hourMin, timesOfDay);
 
     conditions.altitudeDiff = getAltitudeDiff();
     return conditions;
@@ -76,19 +88,60 @@ async function fetchCsv(file) {
 async function getProperFireAdjustmentData() {
     const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-11
     if (5 <= currentMonth && currentMonth <= 7) {
-        return await fetchJson(properString('fire_table_b.json'));
+        return await fetchJson('fire_table_b.json');
     } else if (currentMonth >= 11 || currentMonth === 1) {
-        return await fetchJson(properString('fire_table_d.json'));
+        return await fetchJson('fire_table_d.json');
     } else {
-        return await fetchJson(properString('fire_table_c.json'));
+        return await fetchJson('fire_table_c.json');
     }
 }
 
+function verifyValid() {
+     // Get the form values
+     const dryBulbTemperature = document.getElementById('dryBulbTemperature').value;
+     const relativeHumidity = document.getElementById('relativeHumidity').value;
+     const direction = document.getElementById('direction').value;
+     const slope = document.getElementById('slope').value;
+     const shading = document.getElementById('shading').value;
+     const altitudeDiff = document.getElementById('altitudeDiff').value;
+     
+     // Clear error messages
+     document.getElementById('errorMessage').style.display = 'none';
+     document.getElementById('result').style.display = 'none';
+     document.getElementById('saveButton').style.display = 'none';
+     
+     // Check if all fields are filled
+     let isValid = true;
+     const fields = [dryBulbTemperature, relativeHumidity, direction, slope, shading, altitudeDiff];
+     const inputs = ['dryBulbTemperature', 'relativeHumidity', 'direction', 'slope', 'shading', 'altitudeDiff'];
+
+     // Reset any previous errors
+     inputs.forEach(input => document.getElementById(input).classList.remove('error'));
+
+     fields.forEach((field, index) => {
+         if (field === '') {
+             document.getElementById(inputs[index]).classList.add('error');
+             isValid = false;
+         }
+     });
+
+     if (!isValid) {
+         document.getElementById('errorMessage').innerText = 'Please fill out all fields correctly!';
+         document.getElementById('errorMessage').style.display = 'block';
+     }
+
+     return isValid;
+}
+
 async function calculateProbability() {
+    const isValid = verifyValid();
+    if (!isValid) {
+        return;
+    }
     const conditions = getConditions();
-    const initialTable = await fetchCsv(properString('./fire_table_a.csv'));
+    const initialTable = await fetchCsv('fire_table_a.csv');
     const adjustmentTable = await getProperFireAdjustmentData();
-    const finalTable = await fetchJson(properString('fire_table_e.json'));
+    const finalTable = await fetchJson('fire_table_e.json');
 
     const num = parseInt(initialTable[roundDown20(conditions.dryBulbTemperature).toString()][conditions.relativeHumidityPercentage.toString()]);
     let adjustmentNum;
@@ -142,7 +195,7 @@ function saveConfiguration(conditions, probabilityOfIgnition) {
     localStorage.setItem('savedConfigs', JSON.stringify(savedConfigs));
 
     alert('Configuration saved!');
-    displaySavedConfigurations(); // Update the list of saved configurations
+    //displaySavedConfigurations(); // Update the list of saved configurations
 }
 
 function displaySavedConfigurations() {
@@ -168,5 +221,3 @@ function displaySavedConfigurations() {
     });
 }
 
-// Call this function on page load
-window.onload = displaySavedConfigurations;

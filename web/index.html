@@ -43,6 +43,9 @@
             box-sizing: border-box; 
             font-size: 15px;
         }
+        input.error, select.error { 
+            border-color: red; 
+        }
         button { 
             padding: 10px 15px; 
             background-color: #4CAF50; 
@@ -64,18 +67,17 @@
             border: 1px solid #ddd; 
             border-radius: 4px; 
         }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
         #saveButton { 
             background-color: #008CBA; 
+            display: none; 
         }
         #saveButton:hover { 
             background-color: #007bb5; 
-        }
-        #savedConfigsList { 
-            margin-top: 20px; 
-            padding: 10px; 
-            background-color: #e7f3fe; 
-            border: 1px solid #b3d7ff; 
-            border-radius: 4px; 
         }
     </style>
 </head>
@@ -125,18 +127,17 @@
         <input type="number" id="altitudeDiff">
     </div>
 
+    <div id="errorMessage" class="error-message" style="display:none;"></div>
+
     <div id="result" class="result" style="display:none;"></div>
 
     <button onclick="calculateProbability()">Calculate</button>
-    <a href="./fire_ignition_calculator/history.html" >
-        <button id="History" style="background-color: blue; color: white">
-            View History
-        </div>
-    </a>
-
+    <button id="saveButton" onclick="saveConfig()">Save</button>
+    <button id="History" onclick="window.location.href='history.html'" style="background-color: blue; color: white">
+        View History
+    </button>
 </div>
 
-<script src="./fire_ignition_calculator/main.js"></script>
-
+ <script src="main.js"></script>
 </body>
 </html>
