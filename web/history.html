@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Ignition History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background-color: #f0f2f5;
+        }
+        .history-container {
+            background-color: #ffffff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #555;
+        }
+        .back-arrow:hover {
+            color: #333;
+        }
+
+        .datepicker-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #datepicker {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-box {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="history-container">
+    <span class="back-arrow" onclick="window.location.href='index.html'">&larr;</span>
+    <h1>Fire Ignition History</h1>
+    <div class="datepicker-container">
+        <input type="text" id="datepicker" placeholder="Select a date">
+    </div>
+
+    <div class="results-box">
+        <!-- Sample results -->
+        <div class="result-item">Result 1: Details about the selected date...</div>
+        <div class="result-item">Result 2: More details...</div>
+        <div class="result-item">Result 3: Even more details...</div>
+        <div class="result-item">Result 4: Additional details...</div>
+        <div class="result-item">Result 5: And so on...</div>
+    </div>
+
+    <!-- Moment.js (optional but useful for date formatting) -->
+    <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+    <!-- Pikaday JS -->
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+
+    <script>
+        // Initialize Pikaday
+        var picker = new Pikaday({
+            field: document.getElementById('datepicker'),
+            format: 'MM/DD/YYYY',
+            onSelect: function(date) {
+                console.log('Selected date: ' + picker.toString());
+                // Add custom behavior when a date is selected
+                // e.g., update results based on the selected date
+            }
+        });
+    </script>
+
+</body>
+</html>

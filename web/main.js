@@ -116,7 +116,15 @@ function saveConfiguration(conditions, probabilityOfIgnition) {
     const timestamp = new Date().toISOString();
     const savedData = {
         timestamp,
-        conditions,
+        conditions: {
+            dryBulbTemperature: conditions.dryBulbTemperature,
+            relativeHumidityPercentage: conditions.relativeHumidityPercentage,
+            direction: conditions.direction,
+            slope: conditions.slope,
+            shading: conditions.shading,
+            altitudeDiff: conditions.altitudeDiff,
+            timeOfDay: conditions.timeOfDay
+        },
         probabilityOfIgnition
     };
 
@@ -141,7 +149,17 @@ function displaySavedConfigurations() {
 
     savedConfigs.forEach(config => {
         const configElement = document.createElement('div');
-        configElement.textContent = `Saved on ${new Date(config.timestamp).toLocaleString()} - Probability of Ignition: ${config.probabilityOfIgnition}`;
+        configElement.textContent = `
+            Saved on ${new Date(config.timestamp).toLocaleString()} -
+            Dry Bulb Temperature: ${config.conditions.dryBulbTemperature}, 
+            Relative Humidity: ${config.conditions.relativeHumidityPercentage}, 
+            Direction: ${config.conditions.direction}, 
+            Slope: ${config.conditions.slope}, 
+            Shading: ${config.conditions.shading}, 
+            Altitude Diff: ${config.conditions.altitudeDiff}, 
+            Time of Day: ${config.conditions.timeOfDay},
+            Probability of Ignition: ${config.probabilityOfIgnition}
+        `;
         savedListDiv.appendChild(configElement);
     });
 }
